@@ -1,29 +1,21 @@
 import csp
 
-rgb = ['R', 'G', 'B']
+startd = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]#'K']
 
 domains = {
-    'Ar' : rgb,
-    'Dk' : rgb,
-    'Ab' : rgb,
-    'Tx' : rgb,
-    'Kk' : rgb,
-    'Lz' : rgb,
-    'Ha' : rgb,
-    'Il' : rgb,
+    'E': startd,
+    'L': startd,
+    'F': startd,
+    'O': startd,
 }
 
 variables = domains.keys()
 
 neighbors = {
-    'Ar' : ['Dk', 'Kk', 'Tx'],
-    'Dk' : ['Ar', 'Ab'],
-    'Ab' : ['Dk', 'Kk'],
-    'Tx' : ['Ar', 'Lz', 'Ha'],
-    'Kk' : ['Ar', 'Lz', 'Ab'],
-    'Lz' : ['Kk', 'Tx', 'Ha', 'Il'],
-    'Ha' : ['Tx', 'Lz'],
-    'Il' : ['Lz'],
+    'L': ['E', 'F', 'O'],
+    'E': ['L', 'F', 'O'],
+    'F': ['L', 'E', 'O'],
+    'O': ['L', 'F', 'E']
 }
 
 def constraints(A, a, B, b):
@@ -35,10 +27,10 @@ def constraints(A, a, B, b):
 
     return True
 
-myMap = csp.CSP(variables, domains, neighbors, constraints)
+alphaM = csp.CSP(variables, domains, neighbors, constraints)
 
 myCSPs = [
-    {'csp': myMap,
-     # 'select_unassigned_variable':csp.mrv,
+    {
+        'csp': alphaM,
      }
 ]
