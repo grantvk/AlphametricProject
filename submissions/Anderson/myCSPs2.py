@@ -7,13 +7,15 @@ startd = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]#'K']
 domains = {
     'A': startd,
     'B': startd,
+    'C': startd,
 }
 
 variables = domains.keys()
 
 neighbors = {
-    'A': ['B'],
-    'B': ['A'],
+    'A': ['B','C'],
+    'B': ['A','C'],
+    'C': ['A','B']
 }
 
 print(domains.values())
