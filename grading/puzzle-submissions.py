@@ -29,6 +29,7 @@ def compare_searchers(problems, header, searchers=[]):
     table = [[search.name(s)] + [do(s, p) for p in problems] for s in searchers]
     print_table(table, header)
     print('----------------------------------------')
+    '''
     for p in problems:
         bestPath = []
         node = bestNode[p.label]
@@ -41,9 +42,9 @@ def compare_searchers(problems, header, searchers=[]):
                 summary += "\n" + p.prettyPrint(state) + "\n---------"
             except:
                 summary += " " + state
-        print(summary)
+        #print(summary)
         print('----------------------------------------')
-
+'''
 
 submissions = {}
 scores = {}
@@ -59,8 +60,7 @@ for student in roster:
         pass
     except:
         traceback.print_exc()
-
-print(message1)
+        message1
 print('----------------------------------------')
 
 def bestFS(problem, h=None):
@@ -88,11 +88,11 @@ for student in roster:
             header=hlist,
             searchers=[
                 search.depth_first_graph_search,
-                bestFS,
-                search.breadth_first_search,
-                search.iterative_deepening_search,
-                search.uniform_cost_search,
-                search.astar_search,
+                #bestFS,
+                #search.breadth_first_search,
+                #search.iterative_deepening_search,
+                #search.uniform_cost_search,
+                #search.astar_search,
             ]
         )
     except:
