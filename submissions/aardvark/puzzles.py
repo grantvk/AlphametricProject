@@ -48,20 +48,43 @@ sumner_puzzle.description = '''
 An abbreviated map of Sumner County, TN.
 This map is unique, to the best of my knowledge.
 '''
+TakenNumbers = []
+OpenNumbers= [0,1,2,3]
+letters = None
 
+a = 0
+b = 0
+c = 0
+
+letters = a,b,c,
+tWord= a #(E*100) + (L*10) + F
+mWord= b #(E*100) + (L*10) + F
+bWord= c #(F*1000) + (O*100) + (O*10) + L
 # A trivial Problem definition
-class LightSwitch(search.Problem):
+class Alphametric(search.Problem):
     def actions(self, state):
-        return ['up', 'down']
+        letter = []
+        for curLetter in letters:
+            if curLetter == 0:
+                letter.append(self, curLetter)
+        return [letter]
 
     def result(self, state, action):
-        if action == 'up':
-            return 'on'
-        else:
-            return 'off'
+        newState = state.copy
+        for choice in letters:
+            if action == choice:
+                for choice2 in newState:
+                    if choice2 == choice:
+                        choice2 = newState[1][0]
+                        newState.remove(newState[1][0])
+                return newState
 
     def goal_test(self, state):
-        return state == 'on'
+        #return (tWord + mWord) == bWord
+        if state[0] != 0:
+            return state[0] + state[1] == state[2]
+        else:
+            return False
 
     def h(self, node):
         state = node.state
@@ -71,11 +94,10 @@ class LightSwitch(search.Problem):
             return 1
 
 #swiss_puzzle = search.GraphProblem('A', 'Z', sumner_map)
-switch_puzzle = LightSwitch('off')
-switch_puzzle.label = 'Light Switch'
+#am_puzzle = Alphametric(tWord, mWord, bWord)
+am_puzzle = Alphametric([a,b,c],[1,2,3])
+am_puzzle.label = 'Alhpametric Probelm Solver'
 
 myPuzzles = [
- #   swiss_puzzle,
-    sumner_puzzle,
-    switch_puzzle,
+    am_puzzle,
 ]
