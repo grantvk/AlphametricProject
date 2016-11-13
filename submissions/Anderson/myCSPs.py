@@ -16,6 +16,7 @@ neighbors = {
     'B': ['A'],
 }
 
+domains('A')
 print(domains.values())
 
 def constraints(C, c, D, d):
