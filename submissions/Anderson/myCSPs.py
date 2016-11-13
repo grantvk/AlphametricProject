@@ -16,8 +16,10 @@ neighbors = {
     'B': ['A'],
 }
 
-domains('A')
+#domains('A')
 print(domains.values())
+# domains('B')
+# print(domains.values())
 
 def constraints(C, c, D, d):
     if C == D:      # e.g. NSW == NSW

@@ -1,3 +1,6 @@
+# The GUI was modified from http://www.tkdocs.com/tutorial/firstexample.html. The original material
+# is copyrighted by Mark Roseman. The license can be found at https://creativecommons.org/licenses/by-nc-sa/2.5/ca/.
+# See the License for the specific language governing permissions and limitations under the License.
 from tkinter import *
 from tkinter import ttk
 
