@@ -20,7 +20,7 @@ message1 = 'Submissions that compile:'
 for student in roster:
     try:
         # http://stackoverflow.com/a/17136796/2619926
-        mod = importlib.import_module('submissions.' + student + '.myCSPs')
+        mod = importlib.import_module('submissions.' + student + '.myCSPs2')
         submissions[student] = mod.myCSPs
         message1 += ' ' + student
     except ImportError:
