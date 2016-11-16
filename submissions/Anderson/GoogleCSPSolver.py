@@ -126,8 +126,9 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
   #
   #             Stringtoprint.__add__("sums:" + str([sums[i].Value() for i in range(p_len)]))
   #             Stringtoprint.__add__("\n")
+    number_solutions = 0
     while solver.NextSolution():
-        number_solutions = 0
+
         num_solutions += 1
         while number_solutions < 1:
     # while num_solutions < 1:
@@ -174,10 +175,10 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
           # Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
           # Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
 
-        # Stringtoprint += "\nnum_solutions:" + str(num_solutions)
-        # Stringtoprint += "\nfailures:" + str(solver.Failures())
-        # Stringtoprint += "\nbranches:" + str(solver.Branches())
-        # Stringtoprint += "\nWallTime:" + str(solver.WallTime())
+    Stringtoprint += "\nnum_solutions:" + str(num_solutions)
+    Stringtoprint += "\nfailures:" + str(solver.Failures())
+    Stringtoprint += "\nbranches:" + str(solver.Branches())
+    Stringtoprint += "\nWallTime:" + str(solver.WallTime())
 
     print("\nnum_solutions:", num_solutions)
     print("failures:", solver.Failures())
