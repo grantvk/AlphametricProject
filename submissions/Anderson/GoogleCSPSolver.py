@@ -45,67 +45,67 @@ Stringtoprint = ""
 
 def main(problem_str="SEND+MORE=MONEY", base=10):
 
-  # Create the solver.
-  solver = pywrapcp.Solver("Send most money")
+    # Create the solver.
+    solver = pywrapcp.Solver("Send most money")
 
-  # data
-  print("\nproblem:", problem_str)
+    # data
+    print("\nproblem:", problem_str)
 
-  # convert to array.
-  problem = re.split("[\s+=]", problem_str)
+    # convert to array.
+    problem = re.split("[\s+=]", problem_str)
 
-  p_len = len(problem)
-  print("base:", base)
+    p_len = len(problem)
+    print("base:", base)
 
-  # create the lookup table: list of (digit : ix)
-  a = sorted(set("".join(problem)))
-  n = len(a)
-  lookup = dict(list(zip(a, list(range(n)))))
+    # create the lookup table: list of (digit : ix)
+    a = sorted(set("".join(problem)))
+    n = len(a)
+    lookup = dict(list(zip(a, list(range(n)))))
 
-  # length of each number
-  lens = list(map(len, problem))
+    # length of each number
+    lens = list(map(len, problem))
 
-  #
-  # declare variables
-  #
+    #
+    # declare variables
+    #
 
-  # the digits
-  x = [solver.IntVar(0, base - 1, "x[%i]" % i) for i in range(n)]
-  # the sums of each number (e.g. the three numbers SEND, MORE, MONEY)
-  sums = [solver.IntVar(1, 10 ** (lens[i]) - 1) for i in range(p_len)]
+    # the digits
+    x = [solver.IntVar(0, base - 1, "x[%i]" % i) for i in range(n)]
+    # the sums of each number (e.g. the three numbers SEND, MORE, MONEY)
+    sums = [solver.IntVar(1, 10 ** (lens[i]) - 1) for i in range(p_len)]
 
-  #
-  # constraints
-  #
-  solver.Add(solver.AllDifferent(x))
+    #
+    # constraints
+    #
+    solver.Add(solver.AllDifferent(x))
 
-  ix = 0
-  for prob in problem:
-    this_len = len(prob)
+    ix = 0
+    for prob in problem:
+        this_len = len(prob)
 
-    # sum all the digits with proper exponents to a number
-    solver.Add(sums[ix] == solver.Sum(
-        [(base ** i) * x[lookup[prob[this_len - i - 1]]] for i in range(this_len)[::-1]]))
-    # leading digits must be > 0
-    solver.Add(x[lookup[prob[0]]] > 0)
-    ix += 1
+        # sum all the digits with proper exponents to a number
+        solver.Add(sums[ix] == solver.Sum(
+            [(base ** i) * x[lookup[prob[this_len - i - 1]]] for i in range(this_len)[::-1]]))
+        # leading digits must be > 0
+        solver.Add(x[lookup[prob[0]]] > 0)
+        ix += 1
 
   # the last number is the sum of the previous numbers
-  solver.Add(solver.Sum([sums[i] for i in range(p_len - 1)]) == sums[-1])
+    solver.Add(solver.Sum([sums[i] for i in range(p_len - 1)]) == sums[-1])
 
   #
   # solution and search
   #
-  solution = solver.Assignment()
-  solution.Add(x)
-  solution.Add(sums)
+    solution = solver.Assignment()
+    solution.Add(x)
+    solution.Add(sums)
 
-  db = solver.Phase(x,
+    db = solver.Phase(x,
                     solver.CHOOSE_FIRST_UNBOUND,
                     solver.ASSIGN_MIN_VALUE)
 
-  solver.NewSearch(db)
-  num_solutions = 0
+    solver.NewSearch(db)
+    num_solutions = 0
   # while solver.NextSolution():
   #     while num_solutions < 1:
   # # while num_solutions < 1:
@@ -126,62 +126,63 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
   #
   #             Stringtoprint.__add__("sums:" + str([sums[i].Value() for i in range(p_len)]))
   #             Stringtoprint.__add__("\n")
-  while solver.NextSolution():
-      while num_solutions < 1:
-  # while num_solutions < 1:
+    while solver.NextSolution():
+        number_solutions = 0
         num_solutions += 1
-        global Stringtoprint
-        Stringtoprint = ""
-        Stringtoprint += "\nsolution #%i" % num_solutions
-        for i in range(n):
-            Stringtoprint += "\n" +str(a[i]) + "=" + str(x[i].Value())
-        Stringtoprint += "\n"
-        # for prob in problem:
-        #     Stringtoprint += "\n"
-        #     for p in prob:
-        #       Stringtoprint += p
-        #       #Stringtoprint += "\n"
-        #       #Stringtoprint += "\n"
-        for prob in problem:
+        while number_solutions < 1:
+    # while num_solutions < 1:
+            number_solutions += 1
+            global Stringtoprint
+            Stringtoprint = ""
+            Stringtoprint += "\nsolution #%i" % num_solutions
+            for i in range(n):
+                Stringtoprint += "\n" +str(a[i]) + "=" + str(x[i].Value())
             Stringtoprint += "\n"
+            # for prob in problem:
+            #     Stringtoprint += "\n"
+            #     for p in prob:
+            #       Stringtoprint += p
+            #       #Stringtoprint += "\n"
+            #       #Stringtoprint += "\n"
+            for prob in problem:
+                Stringtoprint += "\n"
+                for p in prob:
+                  Stringtoprint += str(x[lookup[p]].Value())
+                  # Stringtoprint += "\n"
+
+                  #Stringtoprint += "sums:" + str([sums[i].Value() for i in range(p_len)])
+                  #Stringtoprint += "\n"
+        print("\nsolution #%i" % num_solutions)
+        for i in range(n):
+            print(a[i], "=", x[i].Value())
+        print()
+        for prob in problem:
             for p in prob:
-              Stringtoprint += str(x[lookup[p]].Value())
-              # Stringtoprint += "\n"
+                print(p, end=' ')
+            print()
+        print()
+        for prob in problem:
+            for p in prob:
+                print(x[lookup[p]].Value(), end=' ')
+            print()
 
-              #Stringtoprint += "sums:" + str([sums[i].Value() for i in range(p_len)])
-              #Stringtoprint += "\n"
-      num_solutions += 1
-      print("\nsolution #%i" % num_solutions)
-      for i in range(n):
-          print(a[i], "=", x[i].Value())
-      print()
-      for prob in problem:
-          for p in prob:
-              print(p, end=' ')
-          print()
-      print()
-      for prob in problem:
-          for p in prob:
-              print(x[lookup[p]].Value(), end=' ')
-          print()
+        print("sums:", [sums[i].Value() for i in range(p_len)])
+        print()
 
-      print("sums:", [sums[i].Value() for i in range(p_len)])
-      print()
+          # Stringtoprint.__add__("\nnum_solutions:" + str(num_solutions))
+          # Stringtoprint.__add__("\nfailures:" + str(solver.Failures()))
+          # Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
+          # Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
 
-  # Stringtoprint.__add__("\nnum_solutions:" + str(num_solutions))
-  # Stringtoprint.__add__("\nfailures:" + str(solver.Failures()))
-  # Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
-  # Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
+        # Stringtoprint += "\nnum_solutions:" + str(num_solutions)
+        # Stringtoprint += "\nfailures:" + str(solver.Failures())
+        # Stringtoprint += "\nbranches:" + str(solver.Branches())
+        # Stringtoprint += "\nWallTime:" + str(solver.WallTime())
 
-  Stringtoprint += "\nnum_solutions:" + str(num_solutions)
-  Stringtoprint += "\nfailures:" + str(solver.Failures())
-  Stringtoprint += "\nbranches:" + str(solver.Branches())
-  Stringtoprint += "\nWallTime:" + str(solver.WallTime())
-
-  print("\nnum_solutions:", num_solutions)
-  print("failures:", solver.Failures())
-  print("branches:", solver.Branches())
-  print("WallTime:", solver.WallTime())
+    print("\nnum_solutions:", num_solutions)
+    print("failures:", solver.Failures())
+    print("branches:", solver.Branches())
+    print("WallTime:", solver.WallTime())
 
   # while solver.NextSolution():
   #     while num_solutions < 1:
@@ -213,12 +214,13 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
 def test_problems(base=10):
   problems = [
       "SEND+MORE=MONEY",
-      "SEND+MOST=MONEY",
-      "VINGT+CINQ+CINQ=TRENTE",
-      "EIN+EIN+EIN+EIN=VIER",
-      "DONALD+GERALD=ROBERT",
-      "SATURN+URANUS+NEPTUNE+PLUTO+PLANETS",
-      "WRONG+WRONG=RIGHT"
+      "A+B=C"
+      # "SEND+MOST=MONEY",
+      # "VINGT+CINQ+CINQ=TRENTE",
+      # "EIN+EIN+EIN+EIN=VIER",
+      # "DONALD+GERALD=ROBERT",
+      # "SATURN+URANUS+NEPTUNE+PLUTO+PLANETS",
+      # "WRONG+WRONG=RIGHT"
   ]
 
   for p in problems:
@@ -226,15 +228,15 @@ def test_problems(base=10):
 
 
 problem = "SEND+MORE=MONEY"
-base = 10
-if __name__ == "__main__":
-  if len(sys.argv) > 1:
-    problem = sys.argv[1]
-  if len(sys.argv) > 2:
-    base = int(sys.argv[2])
-
-  if problem == "TEST" or problem == "test":
-    test_problems(base)
-  else:
-    main(problem, base)
+# base = 10
+# if __name__ == "__main__":
+#   if len(sys.argv) > 1:
+#     problem = sys.argv[1]
+#   if len(sys.argv) > 2:
+#     base = int(sys.argv[2])
+#
+#   if problem == "TEST" or problem == "test":
+#     test_problems(base)
+#   else:
+#     main(problem, base)
 #test_problems()
