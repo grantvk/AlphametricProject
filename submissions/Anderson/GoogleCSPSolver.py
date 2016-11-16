@@ -147,6 +147,9 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
             #       #Stringtoprint += "\n"
             for prob in problem:
                 Stringtoprint += "\n"
+                level = 0
+                if level == 1:
+                    level = 2
                 for p in prob:
                   Stringtoprint += str(x[lookup[p]].Value())
                   # Stringtoprint += "\n"
@@ -176,9 +179,9 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
           # Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
 
     Stringtoprint += "\nnum_solutions:" + str(num_solutions)
-    Stringtoprint += "\nfailures:" + str(solver.Failures())
-    Stringtoprint += "\nbranches:" + str(solver.Branches())
-    Stringtoprint += "\nWallTime:" + str(solver.WallTime())
+    #Stringtoprint += "\nfailures:" + str(solver.Failures())
+    #Stringtoprint += "\nbranches:" + str(solver.Branches())
+    #Stringtoprint += "\nWallTime:" + str(solver.WallTime())
 
     print("\nnum_solutions:", num_solutions)
     print("failures:", solver.Failures())
