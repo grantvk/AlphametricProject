@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import ttk
 from submissions.Anderson import GoogleCSPSolver
 
+#GoogleCSPSolver.main(problem_str="SEND+MORE=MONEY", base = 10)
 
 # def calculate(*args):
 #     try:
@@ -12,10 +13,26 @@ from submissions.Anderson import GoogleCSPSolver
 #         meters.set((0.3048 * value * 10000.0 + 0.5) / 10000.0)
 #     except ValueError:
 #         pass
+
 def solve(*args):
     try:
-        value = float(topWord.get())
-        solution.set((0.3048 * value * 10000.0 + 0.5) / 10000.0)
+        setInputString(topWord,botWord,answer)
+        if inputString.get() == "":
+            solution.set("Please input a Top and Bottom Word!")
+        else:
+            GoogleCSPSolver.main(problem_str=inputString.get(), base=10)
+            solution.set("Yeah")
+        # value = float(topWord.get())
+        # solution.set((0.3048 * value * 10000.0 + 0.5) / 10000.0)
+    except ValueError:
+        pass
+def setInputString(top, bottom, sum):
+    try:
+        if top.get() == "" or bottom.get() == "" or sum.get() == "":
+            inputString.set("")
+        else:
+            inputString.set(top.get().capitalize() + "+" + bottom.get().capitalize() + "=" + sum.get().capitalize())
+
     except ValueError:
         pass
 
@@ -29,12 +46,24 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
 
-feet = StringVar()
-meters = StringVar()
+# feet = StringVar()
+# meters = StringVar()
 topWord = StringVar()
 botWord = StringVar()
 answer = StringVar()
 solution = StringVar()
+inputString = StringVar()
+
+# topWord.set("")
+# botWord.set("")
+# answer.set("")
+# solution.set("")
+#inputString.set("")
+
+# topWord = ""
+# botWord = ""
+# answer = ""
+# solution = ""
 
 topWord_entry = ttk.Entry(mainframe, width=7, textvariable=topWord)
 topWord_entry.grid(column=2, row=2, sticky=(W, E))
@@ -58,6 +87,9 @@ ttk.Label(mainframe, text="Solution").grid(column=3, row=6, sticky=W)
 # ttk.Label(mainframe, text="top").grid(column=3, row=1, sticky=W)
 # ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
 # ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
+
+#inputString = setInputString(topWord,botWord,answer)
+#solution = solve()
 
 for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
 
