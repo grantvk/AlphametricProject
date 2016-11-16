@@ -104,33 +104,80 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
                     solver.ASSIGN_MIN_VALUE)
 
   solver.NewSearch(db)
-
   num_solutions = 0
   while solver.NextSolution():
       while num_solutions < 1:
   # while num_solutions < 1:
         num_solutions += 1
-        print("\nsolution #%i" % num_solutions)
+        Stringtoprint.__add__("\nsolution #%i" % num_solutions)
         for i in range(n):
+            Stringtoprint.__add__(str(a[i]) + "=" + str(x[i].Value()))
+            Stringtoprint.__add__("\n")
+        for prob in problem:
+          for p in prob:
+              Stringtoprint.__add__(p + ' ')
+              Stringtoprint.__add__("\n")
+              Stringtoprint.__add__("\n")
+        for prob in problem:
+          for p in prob:
+              Stringtoprint.__add__(str(x[lookup[p]].Value()) + ' ')
+              Stringtoprint.__add__("\n")
+
+              Stringtoprint.__add__("sums:" + str([sums[i].Value() for i in range(p_len)]))
+              Stringtoprint.__add__("\n")
+      num_solutions += 1
+      print("\nsolution #%i" % num_solutions)
+      for i in range(n):
           print(a[i], "=", x[i].Value())
-        print()
-        for prob in problem:
+      print()
+      for prob in problem:
           for p in prob:
-            print(p, end=' ')
+              print(p, end=' ')
           print()
-        print()
-        for prob in problem:
+      print()
+      for prob in problem:
           for p in prob:
-            print(x[lookup[p]].Value(), end=' ')
+              print(x[lookup[p]].Value(), end=' ')
           print()
 
-        print("sums:", [sums[i].Value() for i in range(p_len)])
-        print()
+      print("sums:", [sums[i].Value() for i in range(p_len)])
+      print()
+
+  Stringtoprint.__add__("\nnum_solutions:" + str(num_solutions))
+  Stringtoprint.__add__("\nfailures:" + str(solver.Failures()))
+  Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
+  Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
 
   print("\nnum_solutions:", num_solutions)
   print("failures:", solver.Failures())
   print("branches:", solver.Branches())
   print("WallTime:", solver.WallTime())
+
+  # while solver.NextSolution():
+  #     while num_solutions < 1:
+  # # while num_solutions < 1:
+  #       num_solutions += 1
+  #       print("\nsolution #%i" % num_solutions)
+  #       for i in range(n):
+  #         print(a[i], "=", x[i].Value())
+  #       print()
+  #       for prob in problem:
+  #         for p in prob:
+  #           print(p, end=' ')
+  #         print()
+  #       print()
+  #       for prob in problem:
+  #         for p in prob:
+  #           print(x[lookup[p]].Value(), end=' ')
+  #         print()
+  #
+  #       print("sums:", [sums[i].Value() for i in range(p_len)])
+  #       print()
+  #
+  # print("\nnum_solutions:", num_solutions)
+  # print("failures:", solver.Failures())
+  # print("branches:", solver.Branches())
+  # print("WallTime:", solver.WallTime())
 
 
 def test_problems(base=10):
