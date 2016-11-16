@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#The code has been modified
 
 """
   Generic alphametic solver in Google CP Solver.
@@ -39,7 +40,7 @@ import sys
 import re
 
 from ortools.constraint_solver import pywrapcp
-
+Stringtoprint = ""
 
 def main(problem_str="SEND+MORE=MONEY", base=10):
 
@@ -106,23 +107,25 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
 
   num_solutions = 0
   while solver.NextSolution():
-    num_solutions += 1
-    print("\nsolution #%i" % num_solutions)
-    for i in range(n):
-      print(a[i], "=", x[i].Value())
-    print()
-    for prob in problem:
-      for p in prob:
-        print(p, end=' ')
-      print()
-    print()
-    for prob in problem:
-      for p in prob:
-        print(x[lookup[p]].Value(), end=' ')
-      print()
+      while num_solutions < 1:
+  # while num_solutions < 1:
+        num_solutions += 1
+        print("\nsolution #%i" % num_solutions)
+        for i in range(n):
+          print(a[i], "=", x[i].Value())
+        print()
+        for prob in problem:
+          for p in prob:
+            print(p, end=' ')
+          print()
+        print()
+        for prob in problem:
+          for p in prob:
+            print(x[lookup[p]].Value(), end=' ')
+          print()
 
-    print("sums:", [sums[i].Value() for i in range(p_len)])
-    print()
+        print("sums:", [sums[i].Value() for i in range(p_len)])
+        print()
 
   print("\nnum_solutions:", num_solutions)
   print("failures:", solver.Failures())
@@ -147,14 +150,14 @@ def test_problems(base=10):
 
 problem = "SEND+MORE=MONEY"
 base = 10
-# if __name__ == "__main__":
-#   if len(sys.argv) > 1:
-#     problem = sys.argv[1]
-#   if len(sys.argv) > 2:
-#     base = int(sys.argv[2])
-#
-#   if problem == "TEST" or problem == "test":
-#     test_problems(base)
-#   else:
-#     main(problem, base)
-test_problems()
+if __name__ == "__main__":
+  if len(sys.argv) > 1:
+    problem = sys.argv[1]
+  if len(sys.argv) > 2:
+    base = int(sys.argv[2])
+
+  if problem == "TEST" or problem == "test":
+    test_problems(base)
+  else:
+    main(problem, base)
+#test_problems()
