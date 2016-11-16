@@ -18,8 +18,9 @@ def solve(*args):
     try:
         setInputString(topWord,botWord,answer)
         if inputString.get() == "":
-            solution.set("Please input a Top and Bottom Word!")
+            solution.set("Please input 3 Numbers!")
         else:
+            solution.set("")
             GoogleCSPSolver.main(problem_str=inputString.get(), base=10)
             stringprint = GoogleCSPSolver.Stringtoprint
             solution.set(stringprint)

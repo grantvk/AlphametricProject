@@ -46,16 +46,19 @@ Stringtoprint = ""
 def main(problem_str="SEND+MORE=MONEY", base=10):
 
     # Create the solver.
+    # global Stringtoprint
+    global Stringtoprint
+    Stringtoprint = ""
     solver = pywrapcp.Solver("Send most money")
 
     # data
-    print("\nproblem:", problem_str)
+    # print("\nproblem:", problem_str)
 
     # convert to array.
     problem = re.split("[\s+=]", problem_str)
 
     p_len = len(problem)
-    print("base:", base)
+    # print("base:", base)
 
     # create the lookup table: list of (digit : ix)
     a = sorted(set("".join(problem)))
@@ -101,6 +104,8 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
     solution.Add(sums)
 
     db = solver.Phase(x,
+                      #solver.CHOOSE_MIN_SIZE ,
+                      #solver.ASSIGN_CENTER_VALUE)
                     solver.CHOOSE_FIRST_UNBOUND,
                     solver.ASSIGN_MIN_VALUE)
 
@@ -133,9 +138,9 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
         while number_solutions < 1:
     # while num_solutions < 1:
             number_solutions += 1
-            global Stringtoprint
+#            global Stringtoprint
             Stringtoprint = ""
-            Stringtoprint += "\nsolution #%i" % num_solutions
+            Stringtoprint += "\nSolution:"
             for i in range(n):
                 Stringtoprint += "\n" +str(a[i]) + "=" + str(x[i].Value())
             Stringtoprint += "\n"
@@ -145,48 +150,53 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
             #       Stringtoprint += p
             #       #Stringtoprint += "\n"
             #       #Stringtoprint += "\n"
+            level = 0
             for prob in problem:
                 Stringtoprint += "\n"
-                level = 0
+                if level == 0:
+                    Stringtoprint += "  "
                 if level == 1:
-                    level = 2
+                    Stringtoprint += "+"
+                if level == 2:
+                    Stringtoprint += "______________\n  "
+                level += 1
                 for p in prob:
                   Stringtoprint += str(x[lookup[p]].Value())
                   # Stringtoprint += "\n"
 
                   #Stringtoprint += "sums:" + str([sums[i].Value() for i in range(p_len)])
                   #Stringtoprint += "\n"
-        print("\nsolution #%i" % num_solutions)
-        for i in range(n):
-            print(a[i], "=", x[i].Value())
-        print()
-        for prob in problem:
-            for p in prob:
-                print(p, end=' ')
-            print()
-        print()
-        for prob in problem:
-            for p in prob:
-                print(x[lookup[p]].Value(), end=' ')
-            print()
-
-        print("sums:", [sums[i].Value() for i in range(p_len)])
-        print()
+        # print("\nsolution #%i" % num_solutions)
+        # for i in range(n):
+        #     print(a[i], "=", x[i].Value())
+        # print()
+        # for prob in problem:
+        #     for p in prob:
+        #         print(p, end=' ')
+        #     print()
+        # print()
+        # for prob in problem:
+        #     for p in prob:
+        #         print(x[lookup[p]].Value(), end=' ')
+        #     print()
+        #
+        # print("sums:", [sums[i].Value() for i in range(p_len)])
+        # print()
 
           # Stringtoprint.__add__("\nnum_solutions:" + str(num_solutions))
           # Stringtoprint.__add__("\nfailures:" + str(solver.Failures()))
           # Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
           # Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
 
-    Stringtoprint += "\nnum_solutions:" + str(num_solutions)
+    Stringtoprint += "\n\nNumber of Solutions:" + str(num_solutions)
     #Stringtoprint += "\nfailures:" + str(solver.Failures())
     #Stringtoprint += "\nbranches:" + str(solver.Branches())
     #Stringtoprint += "\nWallTime:" + str(solver.WallTime())
 
-    print("\nnum_solutions:", num_solutions)
-    print("failures:", solver.Failures())
-    print("branches:", solver.Branches())
-    print("WallTime:", solver.WallTime())
+    # print("\nnum_solutions:", num_solutions)
+    # print("failures:", solver.Failures())
+    # print("branches:", solver.Branches())
+    # print("WallTime:", solver.WallTime())
 
   # while solver.NextSolution():
   #     while num_solutions < 1:
