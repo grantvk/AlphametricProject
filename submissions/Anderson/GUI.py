@@ -21,7 +21,8 @@ def solve(*args):
             solution.set("Please input a Top and Bottom Word!")
         else:
             GoogleCSPSolver.main(problem_str=inputString.get(), base=10)
-            solution.set(GoogleCSPSolver.Stringtoprint)
+            stringprint = GoogleCSPSolver.Stringtoprint
+            solution.set(stringprint)
         # value = float(topWord.get())
         # solution.set((0.3048 * value * 10000.0 + 0.5) / 10000.0)
     except ValueError:

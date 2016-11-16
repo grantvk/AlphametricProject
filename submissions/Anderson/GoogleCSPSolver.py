@@ -40,6 +40,7 @@ import sys
 import re
 
 from ortools.constraint_solver import pywrapcp
+#global Stringtoprint
 Stringtoprint = ""
 
 def main(problem_str="SEND+MORE=MONEY", base=10):
@@ -105,26 +106,50 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
 
   solver.NewSearch(db)
   num_solutions = 0
+  # while solver.NextSolution():
+  #     while num_solutions < 1:
+  # # while num_solutions < 1:
+  #       num_solutions += 1
+  #       Stringtoprint.__add__("\nsolution #%i" % num_solutions)
+  #       for i in range(n):
+  #           Stringtoprint.__add__(str(a[i]) + "=" + str(x[i].Value()))
+  #           Stringtoprint.__add__("\n")
+  #       for prob in problem:
+  #         for p in prob:
+  #             Stringtoprint.__add__(p + ' ')
+  #             Stringtoprint.__add__("\n")
+  #             Stringtoprint.__add__("\n")
+  #       for prob in problem:
+  #         for p in prob:
+  #             Stringtoprint.__add__(str(x[lookup[p]].Value()) + ' ')
+  #             Stringtoprint.__add__("\n")
+  #
+  #             Stringtoprint.__add__("sums:" + str([sums[i].Value() for i in range(p_len)]))
+  #             Stringtoprint.__add__("\n")
   while solver.NextSolution():
       while num_solutions < 1:
   # while num_solutions < 1:
         num_solutions += 1
-        Stringtoprint.__add__("\nsolution #%i" % num_solutions)
+        global Stringtoprint
+        Stringtoprint = ""
+        Stringtoprint += "\nsolution #%i" % num_solutions
         for i in range(n):
-            Stringtoprint.__add__(str(a[i]) + "=" + str(x[i].Value()))
-            Stringtoprint.__add__("\n")
+            Stringtoprint += "\n" +str(a[i]) + "=" + str(x[i].Value())
+        Stringtoprint += "\n"
+        # for prob in problem:
+        #     Stringtoprint += "\n"
+        #     for p in prob:
+        #       Stringtoprint += p
+        #       #Stringtoprint += "\n"
+        #       #Stringtoprint += "\n"
         for prob in problem:
-          for p in prob:
-              Stringtoprint.__add__(p + ' ')
-              Stringtoprint.__add__("\n")
-              Stringtoprint.__add__("\n")
-        for prob in problem:
-          for p in prob:
-              Stringtoprint.__add__(str(x[lookup[p]].Value()) + ' ')
-              Stringtoprint.__add__("\n")
+            Stringtoprint += "\n"
+            for p in prob:
+              Stringtoprint += str(x[lookup[p]].Value())
+              # Stringtoprint += "\n"
 
-              Stringtoprint.__add__("sums:" + str([sums[i].Value() for i in range(p_len)]))
-              Stringtoprint.__add__("\n")
+              #Stringtoprint += "sums:" + str([sums[i].Value() for i in range(p_len)])
+              #Stringtoprint += "\n"
       num_solutions += 1
       print("\nsolution #%i" % num_solutions)
       for i in range(n):
@@ -143,10 +168,15 @@ def main(problem_str="SEND+MORE=MONEY", base=10):
       print("sums:", [sums[i].Value() for i in range(p_len)])
       print()
 
-  Stringtoprint.__add__("\nnum_solutions:" + str(num_solutions))
-  Stringtoprint.__add__("\nfailures:" + str(solver.Failures()))
-  Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
-  Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
+  # Stringtoprint.__add__("\nnum_solutions:" + str(num_solutions))
+  # Stringtoprint.__add__("\nfailures:" + str(solver.Failures()))
+  # Stringtoprint.__add__("\nbranches:" + str(solver.Branches()))
+  # Stringtoprint.__add__("\nWallTime:" + str(solver.WallTime()))
+
+  Stringtoprint += "\nnum_solutions:" + str(num_solutions)
+  Stringtoprint += "\nfailures:" + str(solver.Failures())
+  Stringtoprint += "\nbranches:" + str(solver.Branches())
+  Stringtoprint += "\nWallTime:" + str(solver.WallTime())
 
   print("\nnum_solutions:", num_solutions)
   print("failures:", solver.Failures())
