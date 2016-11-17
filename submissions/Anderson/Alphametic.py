@@ -40,7 +40,7 @@ def setInputString(top, bottom, sum):
 
 
 root = Tk()
-root.title("Alphametric Solver")
+root.title("Alphametic Solver")
 #root.title("Feet to Meters")
 
 mainframe = ttk.Frame(root, padding="3 3 12 12")
