@@ -18,10 +18,12 @@ def solve(*args):
     try:
         setInputString(topWord,botWord,answer)
         if inputString.get() == "":
-            solution.set("Please input a Top and Bottom Word!")
+            solution.set("Please input 3 Numbers!")
         else:
+            solution.set("")
             GoogleCSPSolver.main(problem_str=inputString.get(), base=10)
-            solution.set("Yeah")
+            stringprint = GoogleCSPSolver.Stringtoprint
+            solution.set(stringprint)
         # value = float(topWord.get())
         # solution.set((0.3048 * value * 10000.0 + 0.5) / 10000.0)
     except ValueError:
@@ -38,7 +40,7 @@ def setInputString(top, bottom, sum):
 
 
 root = Tk()
-root.title("Alphametric Solver")
+root.title("Alphametic Solver")
 #root.title("Feet to Meters")
 
 mainframe = ttk.Frame(root, padding="3 3 12 12")
